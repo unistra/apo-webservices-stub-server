@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>fr.unistra.dnum.esup</groupId>
+  <artifactId>esup-siscol-stub</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <description>Stub data pour ESUP-SISCOL</description>
+
+  <organization>
+    <name>Université de Strasbourg</name>
+    <url>https://unistra.fr</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>GPL-3.0-or-later</name>
+    </license>
+  </licenses>
+
+  <dependencies>
+    <dependency>
+      <groupId>gouv.education.apogee</groupId>
+      <artifactId>apo-webservices-client</artifactId>
+      <version>6.50.73</version>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>gitlab-esup-siscol-stub</id>
+      <url>https://git.unistra.fr/api/v4/projects/50269/packages/maven</url>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>gitlab-esup-siscol-stub</id>
+      <url>https://git.unistra.fr/api/v4/projects/50269/packages/maven</url>
+    </repository>
+    <snapshotRepository>
+      <id>gitlab-esup-siscol-stub</id>
+      <url>https://git.unistra.fr/api/v4/projects/50269/packages/maven</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+</project>
