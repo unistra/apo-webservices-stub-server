@@ -1,0 +1,82 @@
+= ApogeeWS Stub
+:esup-stage: https://github.com/EsupPortail/esup-stage
+:esup-stage-version: 3.0.2
+:esup-siscol: https://github.com/EsupPortail/esup-siscol
+:esup-siscol-version: 2.1.0
+
+
+== Routes de Apogee client appelées par ESUP-SISCOL depuis ESUP-Stage
+:apogee-service: {esup-stage}/blob/{esup-stage-version}/src/main/java/org/esup_portail/esup_stage/service/apogee/ApogeeService.java
+:apogee-controller: {esup-siscol}/blob/{esup-siscol-version}/src/main/java/org/esupportail/referentiel/rest/apogee/ApogeeController.java
+:EtudiantMetierClient: {esup-siscol}/blob/{esup-siscol-version}/src/main/java/org/esupportail/referentiel/ws/services/EtudiantMetierClient.java
+:StudentDataRepositoryDaoWS: {esup-siscol}/blob/{esup-siscol-version}/src/main/java/org/esupportail/referentiel/services/impl/StudentDataRepositoryDaoWS.java
+:StudentComponentRepositoryDaoWS: {esup-siscol}/blob/{esup-siscol-version}/src/main/java/org/esupportail/referentiel/services/impl/StudentComponentRepositoryDaoWS.java
+
+[horizontal]
+link:{apogee-service}#L103[/etudiantRef ? codEtud & annee]::
+* link:{apogee-controller}#L61[ApogeeController#getStudent()]
+** link:{StudentDataRepositoryDaoWS}#L428[StudentDataRepositoryDaoWS#recupererEtudiantApogee()]
+*** link:{EtudiantMetierClient}#L128[EtudiantMetierClient#recupererIdentifiantsEtudiant()]
+**** EtudiantMetierServiceInterface.recupererIdentifiantsEtudiant_v2
+*** link:{EtudiantMetierClient}#L269[EtudiantMetierClient#recupererInfosAdmEtuV4()]
+**** EtudiantMetierServiceInterface.recupererInfosAdmEtu_v4
+*** link:{EtudiantMetierClient}#L172[EtudiantMetierClient#recupererCoordonneesDTO2()]
+**** EtudiantMetierServiceInterface.recupererAdressesEtudiant_v2
+*** link:{StudentDataRepositoryDaoWS}#L198[StudentDataRepositoryDaoWS#recupererAnneesIa()]
+**** link:{EtudiantMetierClient}#L212[EtudiantMetierClient#recupererAnneesIa()]
+***** AdministratifMetierServiceInterface.recupererAnneesIa
+*** link:{StudentDataRepositoryDaoWS}#L278[StudentDataRepositoryDaoWS#recupererRegimeInscriptionCPAM()] & link:{StudentDataRepositoryDaoWS}#L246[recupererAnneesInscriptionFC()]
+**** link:{StudentDataRepositoryDaoWS}#L209[StudentDataRepositoryDaoWS#recupererIAAnnuellesV2()]
+***** link:{EtudiantMetierClient}#L230[EtudiantMetierClient#recupererIAAnnuellesV2()]
+****** AdministratifMetierServiceInterface.recupererIAAnnuelles_v2
+
+link:{apogee-service}#L130[/composantesPrincipalesRef]::
+* link:{apogee-controller}#L261[ApogeeController#composantesPrincipalesRef()]
+** link:{StudentComponentRepositoryDaoWS}#L443[StudentComponentRepositoryDaoWS#getComposantesPrincipalesRef()]
+***  ReferentielMetierServiceInterface#recupererComposante_v2
+
+link:{apogee-service}#L153[/etapesReference]::
+* link:{apogee-controller}#L209[ApogeeController#getEtapesRef()]
+** link:{StudentComponentRepositoryDaoWS}#L342[StudentComponentRepositoryDaoWS#getEtapesRef()]
+*** OffreFormationMetierServiceInterface#recupererSE_v4
+
+
+link:{apogee-service}#L181[/diplomesReferenceParComposanteEtAnnee ? codeComposante & codeAnnee]::
+* link:{apogee-controller}#L242[ApogeeController#getDiplomesRefParComposanteEtAnnee()]
+** link:{StudentComponentRepositoryDaoWS}#L312[StudentComponentRepositoryDaoWS#getListeDiplomeDTO()]
+*** OffreFormationMetierServiceInterface#recupererSE_v4
+
+link:{apogee-service}#L194[/anneesIa ? codEtud]::
+* link:{apogee-controller}#L69[ApogeeController#recupererAnneesIa()]
+** link:{StudentDataRepositoryDaoWS}#L198[StudentDataRepositoryDaoWS#recupererAnneesIa()]
+*** link:{EtudiantMetierClient}#L212[EtudiantMetierClient#recupererAnneesIa]
+**** AdministratifMetierServiceInterface#recupererAnneesIa
+
+link:{apogee-service}#L212[/etapesByEtudiantAndAnnee ? codEtud & annee]::
+* link:{apogee-controller}#L80[ApogeeController#etapesByEtudiantAndAnnee()]
+** link:{StudentDataRepositoryDaoWS}#L665[StudentDataRepositoryDaoWS#recupererEtapesByEtudiantAndAnnee()]
+*** link:{StudentDataRepositoryDaoWS}#L1151[StudentDataRepositoryDaoWS#recupererIaIpParEtudiantAnnee()]
+**** link:{StudentDataRepositoryDaoWS}#L188[StudentDataRepositoryDaoWS#recupererIAEtapesV3()]
+***** link:{EtudiantMetierClient}#L195[EtudiantMetierClient#recupererIAEtapesV3()]
+****** AdministratifMetierServiceInterface#recupererIAEtapes_v3
+**** link:{EtudiantMetierClient}#L486[EtudiantMetierClient#regimeInscriptionEtudiant()]
+***** link:{EtudiantMetierClient}#L230[EtudiantMetierClient#recupererIAAnnuellesV2()]
+****** AdministratifMetierServiceInterface#recupererIAAnnuelles_v2
+***** link:{EtudiantMetierClient}#L103[EtudiantMetierClient#recuperereRegimeInscription()]
+****** ReferentielMetierServiceInterface#recupererRegimeInscription
+**** link:{StudentDataRepositoryDaoWS}#L233[StudentDataRepositoryDaoWS#recupererComposanteV2()]
+***** link:{EtudiantMetierClient}#L466[EtudiantMetierClient#recupererComposanteV2()]
+****** ReferentielMetierServiceInterface#recupererComposante_v2
+**** link:{StudentDataRepositoryDaoWS}#L221[StudentDataRepositoryDaoWS#recupererListDiplomeDTO4]
+****** link:{EtudiantMetierClient}#L433[EtudiantMetierClient#recupererListDiplomeDTO4()]
+******* OffreFormationMetierServiceInterface#recupererSE_v4
+
+link:{apogee-service}#L354[/listEtuParEtapeEtDiplome ? codeComposante & annee & codeEtape & versionEtape & codeDiplome & versionDiplome & codEtu & nom & prenom]::
+* link:{apogee-controller}#L103[ApogeeController#recupererListeEtuParEtpEtDiplome()]
+** link:{EtudiantMetierClient}#L311[EtudiantMetierClient#recupererListeEtuParEtpEtDiplome()]
+*** link:{EtudiantMetierClient}#L375[EtudiantMetierClient#recupererListeEtuParEtpEtDiplome()]
+**** link:{EtudiantMetierClient}#L466[EtudiantMetierClient#recupererComposanteV2()]
+***** ReferentielMetierServiceInterface#recupererComposante_v2
+**** link:{EtudiantMetierClient}#L288[EtudiantMetierClient#recupererListeEtudiants()]
+***** EtudiantMetierServiceInterface#recupererListeEtudiants
+
