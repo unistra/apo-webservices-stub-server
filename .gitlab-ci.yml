@@ -22,13 +22,13 @@ publish-apo-webservices-client:
     EOS
   script:
   - wget -O "$(basename "$JAR_FILE")" "$JAR_FILE"
+  - jar xvf "$(basename "$JAR_FILE")" META-INF/maven/
+  - awk '/<parent>/,/<\/parent>/ {next}1' "$(find META-INF/maven -name pom.xml | head -1)" > orphan-pom.xml
   - ./mvnw deploy:deploy-file
       --settings .m2/settings.xml --batch-mode
       -DrepositoryId=gitlab-esup-siscol-stub
       -Durl="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/maven"
       -Dfile="$(basename "$JAR_FILE")"
-      -DgroupId=gouv.education.apogee
-      -DartifactId=apo-webservices-client
+      -DpomFile=orphan-pom.xml
       -Dversion="$JAR_VERSION"
-      -Dpackaging=jar
-      -DgeneratePom=true
+      -DgeneratePom=false
