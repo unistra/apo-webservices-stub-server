@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<bindings version="3.0"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="https://jakarta.ee/xml/ns/jaxb">
+	<globalBindings generateElementProperty="false">
+		<javaType name="java.time.LocalDateTime" xmlType="xs:dateTime"
+			parseMethod="gouv.education.apogee.commun.client.ws.utils.DateAdapter.parseDateTime"
+			printMethod="gouv.education.apogee.commun.client.ws.utils.DateAdapter.printDateTime" />
+		<javaType name="java.time.LocalDate" xmlType="xs:date"
+			parseMethod="gouv.education.apogee.commun.client.ws.utils.DateAdapter.parseDate"
+			printMethod="gouv.education.apogee.commun.client.ws.utils.DateAdapter.printDate" />
+	</globalBindings>
+</bindings>

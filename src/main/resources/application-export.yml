@@ -1,0 +1,8 @@
+spring:
+  main:
+    web-application-type: NONE
+apo:
+  web-services:
+    uri: http://univ.fr:8080/wsapogee/services/
+    #username: user
+    #passowrd: *********

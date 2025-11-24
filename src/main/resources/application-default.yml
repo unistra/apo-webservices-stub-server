@@ -1,0 +1,12 @@
+spring:
+  ldap:
+    base: ou=people,dc=univ,dc=fr
+    embedded:
+      port: 389
+      base-dn: dc=univ,dc=fr
+      validation:
+        enabled: false
+app:
+  apogee:
+    university-code: UNIV
+    university-libelle: UNIVERSITÉ

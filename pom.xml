@@ -2,10 +2,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>fr.unistra.dnum.esup</groupId>
-  <artifactId>esup-siscol-stub</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-  <description>Stub data pour ESUP-SISCOL</description>
+  <groupId>fr.unistra.dnum.esup-stage</groupId>
+  <artifactId>apo-webservices-stub-server</artifactId>
+  <version>6.50.73-SNAPSHOT</version>
+  <description>Stub Apo Web Services serveur pour ESUP-Stage</description>
+  <packaging>war</packaging>
 
   <organization>
     <name>Université de Strasbourg</name>
@@ -17,30 +18,251 @@
     </license>
   </licenses>
 
+  <properties>
+    <java.version>21</java.version>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <spring.boot.version>3.5.8</spring.boot.version>
+    <jaxws-rt.version>4.0.3</jaxws-rt.version>
+    <ldapsdk.version>7.0.3</ldapsdk.version>
+    <jsonschema-generator.version>4.38.0</jsonschema-generator.version>
+  </properties>
+
   <dependencies>
+    <!-- SOAP WS -->
     <dependency>
-      <groupId>gouv.education.apogee</groupId>
-      <artifactId>apo-webservices-client</artifactId>
-      <version>6.50.73</version>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web-services</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.sun.xml.ws</groupId>
+      <artifactId>jaxws-rt</artifactId>
+      <version>4.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.module</groupId>
+      <artifactId>jackson-module-jaxb-annotations</artifactId>
+    </dependency>
+    <!-- LocalDateTime support -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+    </dependency>
+    <!-- YAML format support -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-yaml</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+    <!-- ldap embedded server -->
+    <dependency>
+      <groupId>org.springframework.ldap</groupId>
+      <artifactId>spring-ldap-test</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.unboundid</groupId>
+      <artifactId>unboundid-ldapsdk</artifactId>
+      <version>3.1.1</version>
+      <scope>compile</scope>
+    </dependency>
+    <!-- MapStruct -->
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+      <version>1.6.3</version>
+    </dependency>
+
+    <!-- JSON Schema Generator -->
+    <dependency>
+      <groupId>com.github.victools</groupId>
+      <artifactId>jsonschema-generator</artifactId>
+      <version>4.38.0</version>
+    </dependency>
+
+    <!-- TEST -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+    </dependency>
+
   </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <!-- Import dependency management from Spring Boot -->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring.boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <repositories>
     <repository>
-      <id>gitlab-esup-siscol-stub</id>
+      <id>gitlab</id>
       <url>https://git.unistra.fr/api/v4/projects/50269/packages/maven</url>
     </repository>
   </repositories>
 
   <distributionManagement>
     <repository>
-      <id>gitlab-esup-siscol-stub</id>
+      <id>gitlab</id>
       <url>https://git.unistra.fr/api/v4/projects/50269/packages/maven</url>
     </repository>
     <snapshotRepository>
-      <id>gitlab-esup-siscol-stub</id>
+      <id>gitlab</id>
       <url>https://git.unistra.fr/api/v4/projects/50269/packages/maven</url>
     </snapshotRepository>
   </distributionManagement>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>${project.build.directory}/generated-sources/specs</directory>
+      </resource>
+    </resources>
+    <plugins>
+      <!-- regenerate apo-webservices-client classes from WSDL
+           (required to use jakarta.… instead of javax.xml.…) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <id>wsdl</id>
+            <goals><goal>unpack</goal></goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>gouv.education.apogee</groupId>
+                  <artifactId>apo-webservices-client</artifactId>
+                  <version>6.50.73</version>
+                  <type>jar</type>
+                  <includes>wsdl/**</includes>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/generated-sources/specs</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!--plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.6.0</version>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <id>wsdl-resource</id>
+            <goals><goal>add-resource</goal></goals>
+            <configuration>
+              <resources>
+                <resource>
+                  <directory>${project.build.directory}/generated-sources/specs</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin-->
+      <plugin>
+        <groupId>com.sun.xml.ws</groupId>
+        <artifactId>jaxws-maven-plugin</artifactId>
+        <version>4.0.3</version>
+        <configuration>
+          <args>
+            <arg>-B-XautoNameResolution</arg>
+          </args>
+          <xadditionalHeaders>true</xadditionalHeaders>
+          <wsdlDirectory>${project.build.directory}/generated-sources/specs/wsdl</wsdlDirectory>
+          <bindingDirectory>src/main/resources</bindingDirectory>
+          <bindingFiles><bindingFile>bindings.xml</bindingFile></bindingFiles>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <id>apogee-wsdl-etudiant-metier</id>
+            <goals><goal>wsimport</goal></goals>
+            <configuration>
+              <wsdlFiles>
+                <wsdlFile>EtudiantMetier_Impl.wsdl</wsdlFile>
+              </wsdlFiles>
+              <packageName>gouv.education.apogee.commun.client.ws.EtudiantMetier</packageName>
+              <wsdlLocation>/wsdl/EtudiantMetier_Impl.wsdl</wsdlLocation>
+            </configuration>
+          </execution>
+          <execution>
+            <phase>generate-sources</phase>
+            <id>apogee-wsdl-administratif-metier</id>
+            <goals><goal>wsimport</goal></goals>
+            <configuration>
+              <wsdlFiles>
+                <wsdlFile>AdministratifMetier_Impl.wsdl</wsdlFile>
+              </wsdlFiles>
+              <packageName>gouv.education.apogee.commun.client.ws.AdministratifMetier</packageName>
+            </configuration>
+          </execution>
+          <execution>
+            <phase>generate-sources</phase>
+            <id>apogee-wsdl-offre-formation-metier</id>
+            <goals><goal>wsimport</goal></goals>
+            <configuration>
+              <wsdlFiles>
+                <wsdlFile>OffreFormationMetier_Impl.wsdl</wsdlFile>
+              </wsdlFiles>
+              <packageName>gouv.education.apogee.commun.client.ws.OffreFormationMetier</packageName>
+            </configuration>
+          </execution>
+          <execution>
+            <phase>generate-sources</phase>
+            <id>apogee-wsdl-referentiel-metier</id>
+            <goals><goal>wsimport</goal></goals>
+            <configuration>
+              <wsdlFiles>
+                <wsdlFile>ReferentielMetier_21062012_Impl.wsdl</wsdlFile>
+              </wsdlFiles>
+              <packageName>gouv.education.apogee.commun.client.ws.ReferentielMetier</packageName>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.14.0</version>
+        <configuration>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.mapstruct</groupId>
+              <artifactId>mapstruct-processor</artifactId>
+              <version>1.6.3</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions><execution>
+          <goals><goal>repackage</goal></goals>
+        </execution></executions>
+        <configuration>
+          <mainClass>fr.unistra.dnum.apogee.ws.server.stub.ApoWebServicesStubServerApplication</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

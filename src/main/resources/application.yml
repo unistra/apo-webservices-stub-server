@@ -1,0 +1,110 @@
+yaml:
+  loader-options:
+    code-point-limit: 104857600 # 100MB
+    max-aliases-for-collections: 1000000
+  dumper-options:
+    default-flow-style: AUTO  # vs BLOCK
+    defaulty-scalar-style: PLAIN
+    allow-read-only-properties: false
+  anchor-properties:
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.CoordonneesDTO2]":
+      prefix: Coordonnees
+      mergeable-properties:
+        - annee
+        - email
+        - emailAnnuaire
+        - loginAnnuaire
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.AdresseDTO2]":
+      prefix: Adresse
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.CommuneDTO2]":
+      property: nomCommune
+      mergeable-properties:
+        - codePostal
+        - libAch
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.PaysDTO]":
+        property: libPay
+        prefix: pays
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.InsAdmAnuDTO2]":
+      prefix: IAA
+      mergeable-properties:
+        - anneeDernierEtbFreq
+        - anneeIAA
+        - dateIAA
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.InsAdmEtpDTO3]":
+      prefix: IAE
+      mergeable-properties:
+        - anneeIAE
+        - dateIAE
+        - nbrInscriptionCycle
+        - nbrInscriptionDiplome
+        - nbrInscriptionEtape
+        - regimeIns
+        - profilEtudiant
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.EtatIAADTO]":
+      property: libEtatIAA
+      prefix: IAA
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.EtatIAEDTO]":
+      property: libEtatIAE
+      prefix: IAE
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.IndBacDTO2]":
+      prefix: BAC
+      property:
+        - libelleBac
+        - liWebSpe1Bac
+        - liWebSpe2Bac
+        - liWebSpeBacPre
+        - etbBac.libEtb
+      mergeable-properties:
+        - anneeObtentionBac
+        - mentionBac
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.NationaliteDTO]": libNationalite
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.DepartementCourtDTO]": libDept
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.DepartementDTO]": libDept
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.TypeHebergementCourtDTO]": libTypeHebergement
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.EtablissementDTO]": libEtb
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.TypeEtablissementDTO]": libLongTpe
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.SitFamCourtDTO]": libFam
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.SitMilCourtDTO]": libMil
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.MentionNivBacDTO]": libMention
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.TypHandicapCourtDTO]": libHandicap
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.TypeBlocageDTO]": libTypBlocage
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.PaysDTO]": libPays
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.CatSocProfDTO]": libPcs
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.DepartementDTO]": libDept
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.EtablissementDTO]": libEtb
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.ProfilEtuDTO]": libelle
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.RegimeInsDTO]": libRgi
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.SitSocialeDTO]": libWebSitSoc
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.SituationSISEDTO]": libSitSISE
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.StatutEtuDTO]": libelle
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.TypDiplomeExtDTO]": libTypDiplomeExt
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.TypDiplomeSISEDTO]": libTypDiplomeSise
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.TypeEtablissementDTO]": libLongTpe
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.CgeDTO]": libCGE
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.ComposanteDTO]": libComposante
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.DiplomeDTO]": libVdi
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.EtapeDTO]": libLongEtp
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.AideFinanciereDTO]": libAide
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.DomaineActiviteProfDTO]": libDomaine
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.SpoHautNivDTO]": libelle
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.SpecialitesDTO]": libSpecialite
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.BourseDTO]": libBourse
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.QuotiteTravDTO]": libQuotite
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.CursusAmgDTO]": libCurAmg
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.CatOuiSiDTO2]": libCat
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.PrgEchangeDTO]": libLongPrg
+  oui-non-properties:
+    "[gouv.education.apogee.commun.client.ws.EtudiantMetier.InfoAdmEtuDTO4]":
+      - temoinDateNaissEstimee
+      - temoinSitMilEnRegle
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.InsAdmAnuDTO2]":
+      - temRgmAmgEtuIAA
+      - temoinAffiliationSS
+      - temoinAyantDroitAuto
+    "[gouv.education.apogee.commun.client.ws.AdministratifMetier.InsAdmEtpDTO3]":
+      - inscriptionTeleEnseignement
+      - temoinInscriptionIaWeb
+      - temoinPI
+      - temoinVes
+      - temoinVapp
+      - temoinVae

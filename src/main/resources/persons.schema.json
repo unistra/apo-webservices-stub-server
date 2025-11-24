@@ -1,0 +1,1043 @@
+{
+  "$schema" : "https://json-schema.org/draft/2020-12/schema",
+  "$defs" : {
+    "AdresseDTO2" : {
+      "type" : "object",
+      "properties" : {
+        "commune" : {
+          "type" : "object",
+          "properties" : {
+            "codeInsee" : {
+              "type" : "string"
+            },
+            "codePostal" : {
+              "type" : "string"
+            },
+            "libAch" : {
+              "type" : "string"
+            },
+            "nomCommune" : {
+              "type" : "string"
+            }
+          }
+        },
+        "libAd1" : {
+          "type" : "string"
+        },
+        "libAd2" : {
+          "type" : "string"
+        },
+        "libAd3" : {
+          "type" : "string"
+        },
+        "libAde" : {
+          "type" : "string"
+        },
+        "numTel" : {
+          "type" : "string"
+        },
+        "pays" : {
+          "$ref" : "#/$defs/PaysDTO-1"
+        }
+      }
+    },
+    "CatSocProfDTO" : {
+      "type" : "object",
+      "properties" : {
+        "codeCategorie" : {
+          "type" : "string"
+        },
+        "libPcs" : {
+          "type" : "string"
+        },
+        "libWebPcs" : {
+          "type" : "string"
+        }
+      }
+    },
+    "DepartementDTO" : {
+      "type" : "object",
+      "properties" : {
+        "codeDept" : {
+          "type" : "string"
+        },
+        "libDept" : {
+          "type" : "string"
+        }
+      }
+    },
+    "EtablissementDTO-1" : {
+      "type" : "object",
+      "properties" : {
+        "codeEtb" : {
+          "type" : "string"
+        },
+        "libEtb" : {
+          "type" : "string"
+        }
+      }
+    },
+    "EtablissementDTO-2" : {
+      "type" : "object",
+      "properties" : {
+        "codeEtb" : {
+          "type" : "string"
+        },
+        "libEtb" : {
+          "type" : "string"
+        }
+      }
+    },
+    "EtatIAADTO" : {
+      "type" : "object",
+      "properties" : {
+        "codeEtatIAA" : {
+          "type" : "string"
+        },
+        "libEtatIAA" : {
+          "type" : "string"
+        },
+        "temDosIAA" : {
+          "type" : "string"
+        }
+      }
+    },
+    "PaysDTO-1" : {
+      "type" : "object",
+      "properties" : {
+        "codPay" : {
+          "type" : "string"
+        },
+        "libPay" : {
+          "type" : "string"
+        }
+      }
+    },
+    "PaysDTO-2" : {
+      "type" : "object",
+      "properties" : {
+        "codePays" : {
+          "type" : "string"
+        },
+        "libPays" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ProfilEtuDTO" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string"
+        },
+        "libelle" : {
+          "type" : "string"
+        },
+        "libelleWeb" : {
+          "type" : "string"
+        }
+      }
+    },
+    "RegimeInsDTO" : {
+      "type" : "object",
+      "properties" : {
+        "codRgi" : {
+          "type" : "string"
+        },
+        "libRgi" : {
+          "type" : "string"
+        }
+      }
+    },
+    "TypeEtablissementDTO" : {
+      "type" : "object",
+      "properties" : {
+        "codTypeEtb" : {
+          "type" : "string"
+        },
+        "libLongTpe" : {
+          "type" : "string"
+        },
+        "libWebTpe" : {
+          "type" : "string"
+        }
+      }
+    }
+  },
+  "type" : "array",
+  "items" : {
+    "type" : "object",
+    "properties" : {
+      "codInd" : {
+        "type" : "integer"
+      },
+      "coordonnees" : {
+        "type" : "array",
+        "items" : {
+          "type" : "object",
+          "properties" : {
+            "adresseAnnuelle" : {
+              "$ref" : "#/$defs/AdresseDTO2"
+            },
+            "adresseFixe" : {
+              "$ref" : "#/$defs/AdresseDTO2"
+            },
+            "annee" : {
+              "type" : "string"
+            },
+            "email" : {
+              "type" : "string"
+            },
+            "emailAnnuaire" : {
+              "type" : "string"
+            },
+            "loginAnnuaire" : {
+              "type" : "string"
+            },
+            "numTelPortable" : {
+              "type" : "string"
+            },
+            "typeHebergement" : {
+              "type" : "object",
+              "properties" : {
+                "codTypeHebergement" : {
+                  "type" : "string"
+                },
+                "libTypeHebergement" : {
+                  "type" : "string"
+                },
+                "libWebTypeHebergement" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "etapes" : {
+        "type" : "array",
+        "items" : {
+          "type" : "object",
+          "properties" : {
+            "anneeIAE" : {
+              "type" : "string"
+            },
+            "bourse" : {
+              "type" : "object",
+              "properties" : {
+                "codeBourse" : {
+                  "type" : "string"
+                },
+                "libBourse" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "catOuiSi" : {
+              "type" : "object",
+              "properties" : {
+                "codCat" : {
+                  "type" : "string"
+                },
+                "libCat" : {
+                  "type" : "string"
+                },
+                "mtfCat" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "cge" : {
+              "type" : "object",
+              "properties" : {
+                "codeCGE" : {
+                  "type" : "string"
+                },
+                "libCGE" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "codeInscriptionPayee" : {
+              "type" : "string"
+            },
+            "composante" : {
+              "type" : "object",
+              "properties" : {
+                "codComposante" : {
+                  "type" : "string"
+                },
+                "libComposante" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "cursusAmg" : {
+              "type" : "object",
+              "properties" : {
+                "codCurAmg" : {
+                  "type" : "string"
+                },
+                "libCurAmg" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "dateIAE" : {
+              "type" : "string",
+              "format" : "date-time"
+            },
+            "diplome" : {
+              "type" : "object",
+              "properties" : {
+                "codeDiplome" : {
+                  "type" : "string"
+                },
+                "libLongDiplome" : {
+                  "type" : "string"
+                },
+                "libVdi" : {
+                  "type" : "string"
+                },
+                "libWebVdi" : {
+                  "type" : "string"
+                },
+                "versionDiplome" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "etape" : {
+              "type" : "object",
+              "properties" : {
+                "codeEtp" : {
+                  "type" : "string"
+                },
+                "libLongEtp" : {
+                  "type" : "string"
+                },
+                "libWebVet" : {
+                  "type" : "string"
+                },
+                "versionEtp" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "etapePremiere" : {
+              "type" : "string"
+            },
+            "etatIaa" : {
+              "$ref" : "#/$defs/EtatIAADTO"
+            },
+            "etatIae" : {
+              "type" : "object",
+              "properties" : {
+                "codeEtatIAE" : {
+                  "type" : "string"
+                },
+                "libEtatIAE" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "inscriptionPayee" : {
+              "type" : "string"
+            },
+            "inscriptionTeleEnseignement" : {
+              "type" : "string"
+            },
+            "listeSpecialiteSISE" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "properties" : {
+                  "codeSpecialite" : {
+                    "type" : "string"
+                  },
+                  "libSpecialite" : {
+                    "type" : "string"
+                  },
+                  "libWebSpecialite" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            },
+            "nbrInscriptionCycle" : {
+              "type" : "string"
+            },
+            "nbrInscriptionDiplome" : {
+              "type" : "string"
+            },
+            "nbrInscriptionEtape" : {
+              "type" : "string"
+            },
+            "numBoursier" : {
+              "type" : "string"
+            },
+            "profilEtudiant" : {
+              "$ref" : "#/$defs/ProfilEtuDTO"
+            },
+            "regimeIns" : {
+              "$ref" : "#/$defs/RegimeInsDTO"
+            },
+            "temoinInscriptionIaWeb" : {
+              "type" : "string"
+            },
+            "temoinPI" : {
+              "type" : "string"
+            },
+            "temoinVae" : {
+              "type" : "string"
+            },
+            "temoinVapp" : {
+              "type" : "string"
+            },
+            "temoinVes" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "ias" : {
+        "type" : "array",
+        "items" : {
+          "type" : "object",
+          "properties" : {
+            "aideFinanciere" : {
+              "type" : "object",
+              "properties" : {
+                "codeAide" : {
+                  "type" : "string"
+                },
+                "libAide" : {
+                  "type" : "string"
+                },
+                "libWebAide" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "anneeDernierDiplome" : {
+              "type" : "string"
+            },
+            "anneeDernierEtbFreq" : {
+              "type" : "string"
+            },
+            "anneeIAA" : {
+              "type" : "string"
+            },
+            "autreEtbAnneeEnCours" : {
+              "$ref" : "#/$defs/EtablissementDTO-1"
+            },
+            "catSocProfChefFamille" : {
+              "$ref" : "#/$defs/CatSocProfDTO"
+            },
+            "catSocProfEtu" : {
+              "$ref" : "#/$defs/CatSocProfDTO"
+            },
+            "codeTransfertDossier" : {
+              "type" : "string"
+            },
+            "cpam" : {
+              "type" : "object",
+              "properties" : {
+                "codCpam" : {
+                  "type" : "string"
+                },
+                "libCpam" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "dateIAA" : {
+              "type" : "string",
+              "format" : "date-time"
+            },
+            "departementDernierDiplomeExt" : {
+              "$ref" : "#/$defs/DepartementDTO"
+            },
+            "departementDernierEtbFreq" : {
+              "$ref" : "#/$defs/DepartementDTO"
+            },
+            "departementEtbAnneeEnCours" : {
+              "$ref" : "#/$defs/DepartementDTO"
+            },
+            "departementEtbAnneePrec" : {
+              "$ref" : "#/$defs/DepartementDTO"
+            },
+            "dernierEtbFreq" : {
+              "$ref" : "#/$defs/EtablissementDTO-1"
+            },
+            "domaineActiviteProf" : {
+              "type" : "object",
+              "properties" : {
+                "codeDomaine" : {
+                  "type" : "string"
+                },
+                "libDomaine" : {
+                  "type" : "string"
+                },
+                "libWebDomaine" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "etatIaa" : {
+              "$ref" : "#/$defs/EtatIAADTO"
+            },
+            "etbAnneePrec" : {
+              "$ref" : "#/$defs/EtablissementDTO-1"
+            },
+            "etbDernierDiplomeExt" : {
+              "$ref" : "#/$defs/EtablissementDTO-1"
+            },
+            "libTransfertDossier" : {
+              "type" : "string"
+            },
+            "maintienInscAnneeEnCours" : {
+              "type" : "string"
+            },
+            "paysDernierDiplomeExt" : {
+              "$ref" : "#/$defs/PaysDTO-2"
+            },
+            "paysDernierEtbFreq" : {
+              "$ref" : "#/$defs/PaysDTO-2"
+            },
+            "paysEtbAnneePrec" : {
+              "$ref" : "#/$defs/PaysDTO-2"
+            },
+            "prgEchange" : {
+              "type" : "object",
+              "properties" : {
+                "codPrg" : {
+                  "type" : "string"
+                },
+                "codSens" : {
+                  "type" : "string"
+                },
+                "etablissement" : {
+                  "type" : "object",
+                  "properties" : {
+                    "codeEtb" : {
+                      "type" : "string"
+                    },
+                    "libEtb" : {
+                      "type" : "string"
+                    },
+                    "libWebEtb" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "libLongPrg" : {
+                  "type" : "string"
+                },
+                "libSens" : {
+                  "type" : "string"
+                },
+                "libWebPrg" : {
+                  "type" : "string"
+                },
+                "pays" : {
+                  "$ref" : "#/$defs/PaysDTO-2"
+                }
+              }
+            },
+            "profil" : {
+              "$ref" : "#/$defs/ProfilEtuDTO"
+            },
+            "quotiteTrav" : {
+              "type" : "object",
+              "properties" : {
+                "codeQuotite" : {
+                  "type" : "string"
+                },
+                "libQuotite" : {
+                  "type" : "string"
+                },
+                "libWebQuotite" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "regimeIns" : {
+              "$ref" : "#/$defs/RegimeInsDTO"
+            },
+            "situationAnneePrec" : {
+              "type" : "object",
+              "properties" : {
+                "codeSitSISE" : {
+                  "type" : "string"
+                },
+                "libSitSISE" : {
+                  "type" : "string"
+                },
+                "libWebSitSISE" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "situationSociale" : {
+              "type" : "object",
+              "properties" : {
+                "codSitSoc" : {
+                  "type" : "string"
+                },
+                "libWebSitSoc" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "sportifHautNiveau" : {
+              "type" : "object",
+              "properties" : {
+                "codSportif" : {
+                  "type" : "string"
+                },
+                "libelle" : {
+                  "type" : "string"
+                },
+                "libelleWeb" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "statut" : {
+              "type" : "object",
+              "properties" : {
+                "code" : {
+                  "type" : "string"
+                },
+                "libelle" : {
+                  "type" : "string"
+                },
+                "libelleWeb" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "temRgmAmgEtuIAA" : {
+              "type" : "string"
+            },
+            "temoinAffiliationSS" : {
+              "type" : "string"
+            },
+            "temoinAyantDroitAuto" : {
+              "type" : "string"
+            },
+            "typeAutreEtbAnneeEnCours" : {
+              "$ref" : "#/$defs/TypeEtablissementDTO"
+            },
+            "typeDernierDiplomeExt" : {
+              "type" : "object",
+              "properties" : {
+                "codeTypDiplomeExt" : {
+                  "type" : "string"
+                },
+                "libTypDiplomeExt" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "typeEtbDernierEtbFreq" : {
+              "$ref" : "#/$defs/TypeEtablissementDTO"
+            },
+            "typeSISEDernierDiplomeExt" : {
+              "type" : "object",
+              "properties" : {
+                "codeTypDiplomeSise" : {
+                  "type" : "string"
+                },
+                "libTypDiplomeSise" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "infoAdm" : {
+        "type" : "object",
+        "properties" : {
+          "anneePremiereInscEnsSup" : {
+            "type" : "string"
+          },
+          "anneePremiereInscEtb" : {
+            "type" : "string"
+          },
+          "anneePremiereInscEtr" : {
+            "type" : "string"
+          },
+          "anneePremiereInscUniv" : {
+            "type" : "string"
+          },
+          "dateNaissance" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "departementNaissance" : {
+            "type" : "object",
+            "properties" : {
+              "codeDept" : {
+                "type" : "string"
+              },
+              "libDept" : {
+                "type" : "string"
+              },
+              "temEnSveDept" : {
+                "type" : "string"
+              }
+            }
+          },
+          "etbPremiereInscUniv" : {
+            "$ref" : "#/$defs/EtablissementDTO-2"
+          },
+          "handicap" : {
+            "type" : "object",
+            "properties" : {
+              "codeHandicap" : {
+                "type" : "string"
+              },
+              "libHandicap" : {
+                "type" : "string"
+              },
+              "libThp" : {
+                "type" : "string"
+              }
+            }
+          },
+          "libVilleNaissance" : {
+            "type" : "string"
+          },
+          "listeBacs" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "anneeObtentionBac" : {
+                  "type" : "string"
+                },
+                "codBac" : {
+                  "type" : "string"
+                },
+                "codOpt1Bac" : {
+                  "type" : "string"
+                },
+                "codOpt2Bac" : {
+                  "type" : "string"
+                },
+                "codOpt3Bac" : {
+                  "type" : "string"
+                },
+                "codOpt4Bac" : {
+                  "type" : "string"
+                },
+                "codSpe1Bac" : {
+                  "type" : "string"
+                },
+                "codSpe2Bac" : {
+                  "type" : "string"
+                },
+                "codSpeBacPre" : {
+                  "type" : "string"
+                },
+                "departementBac" : {
+                  "type" : "object",
+                  "properties" : {
+                    "codeDept" : {
+                      "type" : "string"
+                    },
+                    "libDept" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "etbBac" : {
+                  "$ref" : "#/$defs/EtablissementDTO-2"
+                },
+                "liWebOpt1Bac" : {
+                  "type" : "string"
+                },
+                "liWebOpt2Bac" : {
+                  "type" : "string"
+                },
+                "liWebOpt3Bac" : {
+                  "type" : "string"
+                },
+                "liWebOpt4Bac" : {
+                  "type" : "string"
+                },
+                "liWebSpe1Bac" : {
+                  "type" : "string"
+                },
+                "liWebSpe2Bac" : {
+                  "type" : "string"
+                },
+                "liWebSpeBacPre" : {
+                  "type" : "string"
+                },
+                "libelleBac" : {
+                  "type" : "string"
+                },
+                "licOpt1Bac" : {
+                  "type" : "string"
+                },
+                "licOpt2Bac" : {
+                  "type" : "string"
+                },
+                "licOpt3Bac" : {
+                  "type" : "string"
+                },
+                "licOpt4Bac" : {
+                  "type" : "string"
+                },
+                "licSpe1Bac" : {
+                  "type" : "string"
+                },
+                "licSpe2Bac" : {
+                  "type" : "string"
+                },
+                "licSpeBacPre" : {
+                  "type" : "string"
+                },
+                "mentionBac" : {
+                  "type" : "object",
+                  "properties" : {
+                    "codMention" : {
+                      "type" : "string"
+                    },
+                    "libMention" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "typeEtbBac" : {
+                  "type" : "object",
+                  "properties" : {
+                    "codTypeEtb" : {
+                      "type" : "string"
+                    },
+                    "libLongTpe" : {
+                      "type" : "string"
+                    },
+                    "libWebTpe" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "listeBlocages" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "codBlocage" : {
+                  "type" : "string"
+                },
+                "etapeBlocage" : {
+                  "type" : "object",
+                  "properties" : {
+                    "codEtp" : {
+                      "type" : "string"
+                    },
+                    "libEtp" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "libBlocage" : {
+                  "type" : "string"
+                },
+                "typBlocage" : {
+                  "type" : "object",
+                  "properties" : {
+                    "codTypBlocage" : {
+                      "type" : "string"
+                    },
+                    "libTypBlocage" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "nationaliteDTO" : {
+            "type" : "object",
+            "properties" : {
+              "codeNationalite" : {
+                "type" : "string"
+              },
+              "libNationalite" : {
+                "type" : "string"
+              }
+            }
+          },
+          "nomPatronymique" : {
+            "type" : "string"
+          },
+          "nomUsuel" : {
+            "type" : "string"
+          },
+          "numBoursier" : {
+            "type" : "string"
+          },
+          "numEtu" : {
+            "type" : "integer"
+          },
+          "numeroINE" : {
+            "type" : "string"
+          },
+          "paysNaissance" : {
+            "$ref" : "#/$defs/PaysDTO-1"
+          },
+          "prenom1" : {
+            "type" : "string"
+          },
+          "prenom2" : {
+            "type" : "string"
+          },
+          "prenom3" : {
+            "type" : "string"
+          },
+          "prenomEtatCivil" : {
+            "type" : "string"
+          },
+          "sexEtatCivil" : {
+            "type" : "string"
+          },
+          "sexe" : {
+            "type" : "string"
+          },
+          "situationFamiliale" : {
+            "type" : "object",
+            "properties" : {
+              "codeFam" : {
+                "type" : "string"
+              },
+              "libFam" : {
+                "type" : "string"
+              },
+              "libLongFam" : {
+                "type" : "string"
+              }
+            }
+          },
+          "situationMilitaire" : {
+            "type" : "object",
+            "properties" : {
+              "codeMil" : {
+                "type" : "string"
+              },
+              "libMil" : {
+                "type" : "string"
+              },
+              "libSim" : {
+                "type" : "string"
+              }
+            }
+          },
+          "temoinDateNaissEstimee" : {
+            "type" : "string"
+          },
+          "temoinSitMilEnRegle" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ldap" : {
+        "type" : "object",
+        "properties" : {
+          "cn" : {
+            "type" : "string"
+          },
+          "displayName" : {
+            "type" : "string"
+          },
+          "dn" : {
+            "type" : "object"
+          },
+          "eduPersonAffiliation" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "eduPersonOrgDN" : {
+            "type" : "string"
+          },
+          "eduPersonPrimaryAffiliation" : {
+            "type" : "string"
+          },
+          "givenName" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "mail" : {
+            "type" : "string"
+          },
+          "sn" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "supannAliasLogin" : {
+            "type" : "string"
+          },
+          "supannAutreMail" : {
+            "type" : "string"
+          },
+          "supannCivilite" : {
+            "type" : "string"
+          },
+          "supannEmpId" : {
+            "type" : "string"
+          },
+          "supannEntiteAffectation" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "supannEntiteAffectationPrincipale" : {
+            "type" : "string"
+          },
+          "supannEtuAnneeInscription" : {
+            "type" : "string"
+          },
+          "supannEtuCursusAnnee" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "supannEtuEtape" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "supannEtuId" : {
+            "type" : "string"
+          },
+          "supannRefId" : {
+            "type" : "string"
+          },
+          "telephoneNumber" : {
+            "type" : "string"
+          },
+          "uid" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}

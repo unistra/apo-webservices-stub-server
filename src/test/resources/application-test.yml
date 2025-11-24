@@ -1,0 +1,13 @@
+spring:
+  ldap:
+    base: ou=people,dc=univ,dc=fr
+    embedded:
+      port: 0
+      base-dn: dc=univ,dc=fr
+      validation:
+        enabled: false
+apo:
+  web-services:
+    uri: http://localhost:${server.port}/services/
+dataset:
+  files:
