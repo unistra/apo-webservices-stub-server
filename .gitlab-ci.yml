@@ -1,7 +1,14 @@
 test:
   stage: test
-  image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/eclipse-temurin:21
-  script: ./mvnw verify
+  image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/eclipse-temurin:21
+  cache:
+    paths:
+      - .m2/repository
+  variables:
+    MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+    TZ: Europe/Paris
+  script:
+  - ./mvnw -batch-mode --errors --fail-at-end verify
   artifacts:
     when: always
     reports:

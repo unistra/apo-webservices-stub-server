@@ -1,33 +1,21 @@
 package gouv.education.apogee.commun.client.ws.utils;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.TimeZone;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DateAdapterTest {
-
-    public static final TimeZone restoreTimeZone = TimeZone.getDefault();
 
     public static final String ZONE_OFFSET =
             ZoneId.systemDefault()
                     .getRules()
                     .getOffset(Instant.EPOCH)
                     .toString();
-
-    @BeforeAll static void setTimeZoneToParis() {
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Paris"));
-    }
-    @AfterAll static void restoreTimeZone() {
-        TimeZone.setDefault(restoreTimeZone);
-    }
 
     @Test
     void printDate() {
