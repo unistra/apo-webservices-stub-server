@@ -31,12 +31,28 @@ RUN ./mvnw package -Dmaven.test.skip \
 # final image
 FROM eclipse-temurin:21
 
-RUN mkdir /app /config \
+# DevSecOps: don't run as root
+RUN addgroup --system --gid 123 app \
+    && useradd --system --no-log-init \
+    --shell /usr/sbin/nologin \
+    --no-create-home --home-dir /app \
+    --gid 123 --uid 1234 \
+    app \
+    && mkdir -p /app /config \
     && echo 'dataset: { files: file:/srv/**/*.yml }' > /config/application-default.yml
 
 COPY --from=builder /app /app
+COPY src/test/resources/testdata/personas.yml /srv/personas.yml
 
+USER 1234:123
+WORKDIR /
 EXPOSE 8080/tcp
 EXPOSE 389/tcp
 
-CMD [ "java", "-jar", "/app/apo-webservices-stub-server.war" ]
+HEALTHCHECK \
+    --interval=30s \
+    --timeout=3s \
+    --retries=1 \
+    CMD curl -sfL http://localhost:8080/actuator/health/ || exit 1
+
+ENTRYPOINT [ "java", "-jar", "/app/apo-webservices-stub-server.war" ]
