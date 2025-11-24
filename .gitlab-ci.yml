@@ -1,3 +1,11 @@
+test:
+  stage: test
+  image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/eclipse-temurin:21
+  script: ./mvnw verify
+  artifacts:
+    when: always
+    reports:
+      junit: target/surefire-reports/TEST-*.xml
 
 publish-apo-webservices-client:
   image: eclipse-temurin:21
