@@ -1,0 +1,49 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ v* ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    steps:
+    - uses: actions/checkout@v5
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v5
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Get JAR client WS-APOGEE
+      env:
+        APO_WEBSERVICES_CLIENT_VERSION: 6.50.73
+        APO_WEBSERVICES_CLIENT_URL: https://github.com/EsupPortail/esup-siscol/raw/refs/tags/2.1.2/jars/apo-webservices-client-65073.jar
+      run: |
+        wget -O apo-webservices-client.jar "$APO_WEBSERVICES_CLIENT_URL"
+        mkdir -p META-INF/maven
+        jar xf apo-webservices-client.jar META-INF/maven/
+        awk '/<parent>/,/<\/parent>/ {next}1' META-INF/maven/gouv.education.apogee/apo-webservices-client/pom.xml > META-INF/maven/orphan-pom.xml
+        ./mvnw -B install:install-file \
+          -Dfile=apo-webservices-client.jar \
+          -DpomFile=META-INF/maven/orphan-pom.xml \
+          -Dversion="$APO_WEBSERVICES_CLIENT_VERSION" \
+          -DgeneratePom=false
+        rm -rf apo-webservices-client.jar META-INF/maven
+
+    - name: Build JIB container and publish to GitHub Packages
+      run: |
+        version=$(./mvnw help:evaluate -q -DforceStdout -Dexpression=project.version)
+        ./mvnw -B -e --no-transfer-progress -Dmaven.test.skip \
+          package jib:build \
+          -Djib.to.image="ghcr.io/${{ github.repository }}:$version" \
+          -Djib.to.auth.username=${{ github.actor }} \
+          -Djib.to.auth.password=${{ secrets.GITHUB_TOKEN }}

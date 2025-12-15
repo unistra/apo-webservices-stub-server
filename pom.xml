@@ -8,6 +8,7 @@
   <description>Stub Apo Web Services serveur pour ESUP-Stage</description>
   <packaging>war</packaging>
 
+  <url>https://github.com/unistra/apo-webservices-stub-server</url>
   <organization>
     <name>Université de Strasbourg</name>
     <url>https://unistra.fr</url>
@@ -17,6 +18,12 @@
       <name>GPL-3.0-or-later</name>
     </license>
   </licenses>
+  <scm>
+    <connection>scm:git:${project.url}.git</connection>
+    <developerConnection>scm:git:${project.url}.git</developerConnection>
+    <url>${project.url}</url>
+    <tag>main</tag>
+  </scm>
 
   <properties>
     <java.version>21</java.version>
@@ -296,6 +303,8 @@
               <org.opencontainers.image.description>${project.description}</org.opencontainers.image.description>
               <org.opencontainers.image.licenses>GPL-3.0-or-later</org.opencontainers.image.licenses>
               <org.opencontainers.image.version>${project.version}</org.opencontainers.image.version>
+              <org.opencontainers.image.source>${project.scm.url}</org.opencontainers.image.source>
+              <org.opencontainers.image.ref.name>${project.scm.tag}</org.opencontainers.image.ref.name>
             </labels>
           </container>
           <extraDirectories>
