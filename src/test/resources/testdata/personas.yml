@@ -2,7 +2,7 @@
     uid: olivier
     sn: [ ENSEIGNANT ]
     givenName: [ Olivier ]
-    supannAliasLogin: enseignant
+    supannAliasLogin: olivier
     mail: olivier.enseignant@univ.fr
     eduPersonPrimaryAffiliation: teacher
     eduPersonAffiliation: [teacher, member]
@@ -11,7 +11,7 @@
     uid: nathalie
     sn: [ GESTIONNAIRE ]
     givenName: [ Nathalie ]
-    supannAliasLogin: gestionnaire
+    supannAliasLogin: nathalie
     mail: nathalie.gestionnaire@univ.fr
     eduPersonPrimaryAffiliation: employee
     eduPersonAffiliation: [employee, member]
