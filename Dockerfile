@@ -49,10 +49,11 @@ WORKDIR /
 EXPOSE 8080/tcp
 EXPOSE 389/tcp
 
+ENV MANAGEMENT_SERVER_PORT=8980
 HEALTHCHECK \
     --interval=30s \
     --timeout=3s \
     --retries=1 \
-    CMD curl -sfL http://localhost:8080/actuator/health/ || exit 1
+    CMD curl -sfL http://localhost:8980/actuator/health/ || exit 1
 
 ENTRYPOINT [ "java", "-jar", "/app/apo-webservices-stub-server.war" ]
