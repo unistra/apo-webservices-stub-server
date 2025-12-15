@@ -1,4 +1,8 @@
 
+variables:
+  APO_WEBSERVICES_CLIENT_VERSION: 6.50.73
+  APO_WEBSERVICES_CLIENT_URL: https://github.com/EsupPortail/esup-siscol/raw/refs/tags/2.1.2/jars/apo-webservices-client-65073.jar
+
 version-info:
   stage: .pre
   image: $CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX/eclipse-temurin:21
@@ -16,11 +20,9 @@ version-info:
     reports:
       dotenv: .dotenv
 
-build:
+jib:
   stage: build
-  image:
-    name: gcr.io/kaniko-project/executor:v1.24.0-debug
-    entrypoint: [""]
+  image: $CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX/eclipse-temurin:21
   tags: [kubernetes]
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
@@ -28,29 +30,61 @@ build:
       variables:
         VERSION: $CI_COMMIT_TAG
   variables:
-    KANIKO_REGISTRY_MIRROR: $CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX
+    MAVEN_USER_HOME: $CI_PROJECT_DIR/.m2
+    MAVEN_OPTS: >-
+      -Dhttps.protocols=TLSv1.2
+      -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
+      -Dorg.slf4j.simpleLogger.showDateTime=true
+      -Djava.awt.headless=true
+    MAVEN_CLI_OPTS: >-
+      --batch-mode
+      --errors
+      --fail-at-end
+      --show-version
+      --no-transfer-progress
+      -DinstallAtEnd=true
+      -DdeployAtEnd=true
+  cache:
+    paths:
+      - .m2/repository
   before_script:
     # add auth for docker.io proxy
+    - mkdir -p ${HOME}/.config/google-cloud-tools-java/jib ${HOME}/.config/containers
     - |
-      test -n "${CI_DEPENDENCY_PROXY_PASSWORD}" && cat <<EOF | tee /kaniko/.docker/config.json
+      cat <<EOF > ${HOME}/.config/google-cloud-tools-java/jib/config.json
+        {
+          "disableUpdateCheck": true,
+          "registryMirrors": [
+            {
+              "registry": "registry-1.docker.io",
+              "mirrors": [${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX+\"$CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX\"}]
+            }
+          ]
+        }
+      EOF
+    - |
+      cat <<EOF > ${HOME}/.config/containers/auth.json
         {"auths":{
-          ${CI_DEPENDENCY_PROXY_PASSWORD:+\"$CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX\":{\"auth\":\"$(echo -n "$CI_DEPENDENCY_PROXY_USER:$CI_DEPENDENCY_PROXY_PASSWORD" | base64 -w0)\"\},}
+          ${CI_DEPENDENCY_PROXY_PASSWORD:+\"$CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX\":{\"auth\":\"$(echo -n "$CI_DEPENDENCY_PROXY_USER:$C
+                                                                                               I_DEPENDENCY_PROXY_PASSWORD" | base64 -w0)\"\},}
           ${PUSH_REGISTRY:+\"$PUSH_REGISTRY\":{\"auth\":\"$(echo -n "$PUSH_REGISTRY_USER:$PUSH_REGISTRY_PASSWORD" | base64 -w0)\"\},}
           "${CI_REGISTRY_IMAGE-nocache}":{"auth":"$(echo -n "${CI_REGISTRY_USER-foo}:${CI_REGISTRY_PASSWORD-bar}" | base64 -w0)"},
           "index.docker.io": { }
         }}
       EOF
   script:
-    - export VERSION="$(echo -n "$VERSION" | sed 's/[^[:alnum:]._-]/_/g')" ;
-      /kaniko/executor
-        --context "dir://${CI_PROJECT_DIR}"
-        --dockerfile Dockerfile
-        --cache=true --cache-dir "${CI_PROJECT_DIR}/.cache"
-        --cache-repo "${CI_REGISTRY_IMAGE-oci:$CI_PROJECT_DIR/.cache/kaniko/}${CI_REGISTRY_IMAGE:+/cache}"
-        --label org.opencontainers.image.version="${VERSION}"
-        --label org.opencontainers.image.revision="${CI_COMMIT_SHA}"
-        --label org.opencontainers.image.created="${CI_JOB_STARTED_AT}"
-        --destination "${PUSH_REGISTRY-$CI_REGISTRY_IMAGE}${PUSH_REGISTRY:+/apogeews-stub}:${VERSION}"
+    - wget -O apo-webservices-client.jar "$APO_WEBSERVICES_CLIENT_URL"
+    - mkdir -p META-INF/maven
+    - jar xf apo-webservices-client.jar META-INF/maven/
+    - awk '/<parent>/,/<\/parent>/ {next}1' META-INF/maven/gouv.education.apogee/apo-webservices-client/pom.xml > META-INF/maven/orphan-pom.xml
+    - ./mvnw install:install-file --batch-mode
+        -Dfile=apo-webservices-client.jar
+        -DpomFile=META-INF/maven/orphan-pom.xml
+        -Dversion="$APO_WEBSERVICES_CLIENT_VERSION"
+        -DgeneratePom=false
+    - rm -rf apo-webservices-client.jar META-INF/maven
+    - ./mvnw $MAVEN_CLI_OPTS -Dmaven.test.skip package jib:build
+        -Djib.to.image="${PUSH_REGISTRY-$CI_REGISTRY_IMAGE}${PUSH_REGISTRY:+/apo-webservices-stub-server}:${VERSION}"
 
 test:
   stage: test
@@ -75,9 +109,6 @@ publish-apo-webservices-client:
   - when: manual
   tags:
   - kubernetes
-  variables:
-    JAR_FILE: https://github.com/EsupPortail/esup-siscol/raw/refs/heads/main/jars/apo-webservices-client-65073.jar
-    JAR_VERSION: "6.50.73"
   before_script:
   - |
     mkdir -p .m2 && cat <<EOS > ".m2/settings.xml"
@@ -90,14 +121,14 @@ publish-apo-webservices-client:
     </server></servers></settings>
     EOS
   script:
-  - wget -O "$(basename "$JAR_FILE")" "$JAR_FILE"
-  - jar xvf "$(basename "$JAR_FILE")" META-INF/maven/
+  - wget -O "$(basename "$APO_WEBSERVICES_CLIENT_URL")" "$APO_WEBSERVICES_CLIENT_URL"
+  - jar xvf "$(basename "$APO_WEBSERVICES_CLIENT_URL")" META-INF/maven/
   - awk '/<parent>/,/<\/parent>/ {next}1' "$(find META-INF/maven -name pom.xml | head -1)" > orphan-pom.xml
   - ./mvnw deploy:deploy-file
       --settings .m2/settings.xml --batch-mode
       -DrepositoryId=gitlab-esup-siscol-stub
       -Durl="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/maven"
-      -Dfile="$(basename "$JAR_FILE")"
+      -Dfile="$(basename "$APO_WEBSERVICES_CLIENT_URL")"
       -DpomFile=orphan-pom.xml
-      -Dversion="$JAR_VERSION"
+      -Dversion="$APO_WEBSERVICES_CLIENT_VERSION"
       -DgeneratePom=false

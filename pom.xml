@@ -268,6 +268,51 @@
           <mainClass>fr.unistra.dnum.apogee.ws.server.stub.ApoWebServicesStubServerApplication</mainClass>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>jib-maven-plugin</artifactId>
+        <version>3.5.1</version>
+        <configuration>
+          <from>
+            <image>eclipse-temurin:${java.version}-jdk-noble</image>
+          </from>
+          <container>
+            <appRoot>/app/${project.name}</appRoot>
+            <workingDirectory>/</workingDirectory>
+            <args>java,-cp,/app/${project.name},org.springframework.boot.loader.launch.WarLauncher</args>
+            <user>33:33</user>
+            <ports>
+              <port>8080/tcp</port>
+            </ports>
+            <volumes><volume>/srv</volume></volumes>
+            <environment>
+              <LANG>fr_FR.UTF-8</LANG>
+              <LANGUAGE>fr_FR:fr:en</LANGUAGE>
+              <LC_ALL>fr_FR.UTF-8</LC_ALL>
+              <TZ>Europe/Paris</TZ>
+            </environment>
+            <labels>
+              <org.opencontainers.image.title>${project.name}</org.opencontainers.image.title>
+              <org.opencontainers.image.description>${project.description}</org.opencontainers.image.description>
+              <org.opencontainers.image.licenses>GPL-3.0-or-later</org.opencontainers.image.licenses>
+              <org.opencontainers.image.version>${project.version}</org.opencontainers.image.version>
+            </labels>
+          </container>
+          <extraDirectories>
+            <paths>
+              <path>
+                <from>src/main/jib</from>
+                <into>/</into>
+              </path>
+              <path>
+                <from>src/test/resources/testdata</from>
+                <includes>personas.yml</includes>
+                <into>/srv</into>
+              </path>
+            </paths>
+          </extraDirectories>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
