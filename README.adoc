@@ -1,0 +1,52 @@
+= apo-webservices-stub-server
+
+`apo-webservices-stub-server` est un _Test double_ pour LDAP et les points d'API
+des webservices APOGEE utilisés par https://github.com/EsupPortail/esup-stage[ESUP-Stage]
+au travers de https://github.com/EsupPortail/esup-siscol[ESUP-SiScol].
+
+== Format des données de test
+
+.Les fichiers YAML chargés sont au format liste d'objets link:src/main/java/fr/unistra/dnum/apogee/ws/server/stub/domaine/Person.java[Person] :
+`codInd`:: entier
+`ldap`:: au format link:src/main/java/fr/unistra/dnum/apogee/ws/server/stub/domaine/SupannPerson.java[SupannPerson]
+`infoAdm`:: au format `InfoAdmEtuDTO4`
+`coordonnees`:: liste au format `CoordonneesDTO2`
+`ias`:: liste au format `InsAdmAnuDTO2`
+`etapes`:: liste au format `InsAdmEtpDTO3`
+
+Exemple de personas dans link:src/test/resources/testdata/personas.yml[]
+
+== Configuration
+
+Les valeurs par défaut sont :
+[source,properties]
+----
+app.apogee.university-code = UNIV
+app.apogee.university-libelle = UNIVERSITÉ
+dataset.files = dataset/personas.yml
+spring.ldap.base = ou=people,dc=univ,dc=fr
+spring.ldap.embedded.port = 389
+spring.ldap.embedded.base-dn = dc=univ,dc=fr
+----
+
+En environnement docker : `dataset.files=++/srv/**/*.yml++`
+
+== Compilation
+
+=== Prérequis
+De la même manière que https://github.com/EsupPortail/esup-siscol[ESUP-SiScol],
+il faut disposer des artefacts maven du https://github.com/EsupPortail/esup-siscol#installation-du-jar-client-ws-apogee[JAR client WS-APOGEE].
+
+=== Maven
+
+[source,shell]
+----
+./mvnw package jib:dockerBuild
+----
+
+== Docker
+
+[source,shell]
+----
+docker run --rm -p 8080:8080 -p 389:389 apo-webservices-stub-server:6.50.73-SNAPSHOT
+----
